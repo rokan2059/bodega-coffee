@@ -38,12 +38,12 @@ class ErrorBoundary extends Component<{ children: ReactNode }, { hasError: boole
           <div className="bg-white p-8 rounded-3xl shadow-xl border-2 border-red-500 max-w-md w-full text-center">
             <AlertCircle className="w-16 h-16 text-red-500 mx-auto mb-4" />
             <h2 className="text-2xl font-black uppercase tracking-tight mb-2">Something went wrong</h2>
-            <p className="text-gray-600 mb-6">The application encountered an error. Please try refreshing the page.</p>
+            <p className="text-gray-600 mb-6">The application encountered an error. Please try again.</p>
             <button 
-              onClick={() => window.location.reload()}
+              onClick={() => this.setState({ hasError: false, error: null })}
               className="bg-black text-white px-8 py-3 rounded-xl font-black uppercase tracking-widest hover:bg-gray-800 transition-all"
             >
-              Reload App
+              Try Again
             </button>
           </div>
         </div>
