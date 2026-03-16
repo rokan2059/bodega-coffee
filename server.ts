@@ -338,7 +338,8 @@ async function startServer() {
   });
 
   const PORT = Number(process.env.PORT) || 3000;
-  const isProd = process.env.NODE_ENV === 'production';
+  const distPath = path.resolve(process.cwd(), "dist");
+  const isProd = process.env.NODE_ENV === 'production' || fs.existsSync(distPath);
 
   // Helper to notify all clients of updates
   const notifyUpdate = (type: string, data?: any) => {
@@ -356,6 +357,7 @@ async function startServer() {
   console.log(`isProd: ${isProd}`);
   console.log(`Port: ${PORT}`);
   console.log(`Working Directory: ${process.cwd()}`);
+  console.log(`Dist Path: ${distPath} (Exists: ${fs.existsSync(distPath)})`);
   console.log(`-----------------------`);
 
   // Global Request Logger - MUST BE FIRST
@@ -380,7 +382,13 @@ async function startServer() {
   // API Routes - GET routes first (no body parsing needed)
   app.get("/api/health", (req, res) => {
     console.log(`[API] Health check: ${req.method} ${req.url}`);
-    res.json({ status: "ok", time: new Date().toISOString() });
+    res.json({ 
+      status: "ok", 
+      time: new Date().toISOString(),
+      env: process.env.NODE_ENV,
+      isProd,
+      dbInitialized: !!db
+    });
   });
 
   const getMenu = (req: any, res: any) => {
@@ -632,7 +640,6 @@ async function startServer() {
 
     app.use(vite.middlewares);
   } else {
-    const distPath = path.resolve(process.cwd(), "dist");
     console.log(`Serving static files from: ${distPath}`);
     
     if (!fs.existsSync(distPath)) {
@@ -650,6 +657,12 @@ async function startServer() {
       }
     });
   }
+
+  // Global Error Handler
+  app.use((err: any, req: any, res: any, next: any) => {
+    console.error("[SERVER ERROR]", err);
+    res.status(500).json({ error: "Internal server error", message: err.message });
+  });
 
   console.log("Vite middleware and API routes configured. Starting listener...");
   httpServer.listen(PORT, "0.0.0.0", () => {

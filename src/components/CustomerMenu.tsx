@@ -103,6 +103,12 @@ function CustomerMenuContent() {
   const navigate = useNavigate();
 
   useEffect(() => {
+    if (!db) {
+      console.warn("Firestore database not initialized. Cannot fetch menu.");
+      setLoading(false);
+      return;
+    }
+
     let itemsUnsub: (() => void) | undefined;
 
     // Real-time categories and items
@@ -123,8 +129,14 @@ function CustomerMenuContent() {
         
         setMenu(fullMenu);
         setLoading(false);
-      }, (err) => handleFirestoreError(err, OperationType.LIST, 'items'));
-    }, (err) => handleFirestoreError(err, OperationType.LIST, 'categories'));
+      }, (err) => {
+        console.error("Error fetching items:", err);
+        setLoading(false);
+      });
+    }, (err) => {
+      console.error("Error fetching categories:", err);
+      setLoading(false);
+    });
 
     // Real-time orders for this customer
     const ordersQuery = query(
@@ -135,7 +147,9 @@ function CustomerMenuContent() {
     const ordersUnsub = onSnapshot(ordersQuery, (snap) => {
       const ordersData = snap.docs.map(doc => ({ id: doc.id, ...doc.data() } as Order));
       setOrders(ordersData);
-    }, (err) => handleFirestoreError(err, OperationType.LIST, 'orders'));
+    }, (err) => {
+      console.error("Error fetching orders:", err);
+    });
 
     return () => {
       categoriesUnsub();
