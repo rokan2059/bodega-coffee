@@ -343,17 +343,28 @@ function CustomerMenuContent() {
       {/* Menu Items */}
       <main className="max-w-4xl mx-auto px-6 py-12">
         <AnimatePresence mode="wait">
-          <motion.div
-            key={activeCategory ?? 'all'}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.2 }}
-            className="space-y-16"
-          >
-            {menu
-              .filter(cat => activeCategory === null || cat.id === activeCategory)
-              .map(cat => (
+          {menu.length === 0 ? (
+            <motion.div 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              className="text-center py-20"
+            >
+              <Coffee className="w-16 h-16 text-gray-200 mx-auto mb-6" />
+              <h3 className="text-2xl font-black uppercase tracking-tight text-gray-400">Menu is empty</h3>
+              <p className="text-[10px] font-black uppercase tracking-widest text-gray-300 mt-2">Check back later for our latest offerings</p>
+            </motion.div>
+          ) : (
+            <motion.div
+              key={activeCategory ?? 'all'}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.2 }}
+              className="space-y-16"
+            >
+              {menu
+                .filter(cat => activeCategory === null || cat.id === activeCategory)
+                .map(cat => (
                 <section key={cat.id}>
                   {activeCategory === null ? (
                     <div className="flex items-center gap-6 mb-8">
@@ -531,6 +542,7 @@ function CustomerMenuContent() {
                 </section>
               ))}
           </motion.div>
+        )}
         </AnimatePresence>
       </main>
 

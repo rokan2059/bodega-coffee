@@ -172,10 +172,15 @@ function AdminDashboardContent() {
           await updateDoc(doc(db, 'categories', cat.id), { image });
           
           console.log(`[BG] Generated photo for category ${cat.name}`);
-          await new Promise(r => setTimeout(r, 4000));
-        } catch (err) {
+          await new Promise(r => setTimeout(r, 15000));
+        } catch (err: any) {
           console.error(`[BG] Failed for category ${cat.name}:`, err);
-          await new Promise(r => setTimeout(r, 4000));
+          if (err?.message?.includes('429') || err?.message?.includes('RESOURCE_EXHAUSTED') || err?.status === 429) {
+            console.warn('[BG] Rate limit reached. Stopping background image generation.');
+            isGeneratingRef.current = false;
+            return;
+          }
+          await new Promise(r => setTimeout(r, 15000));
         }
       }
 
@@ -194,10 +199,15 @@ function AdminDashboardContent() {
           await updateDoc(doc(db, 'items', item.id), { image });
           
           console.log(`[BG] Generated photo for ${item.name}`);
-          await new Promise(r => setTimeout(r, 4000));
-        } catch (err) {
+          await new Promise(r => setTimeout(r, 15000));
+        } catch (err: any) {
           console.error(`[BG] Failed for ${item.name}:`, err);
-          await new Promise(r => setTimeout(r, 4000));
+          if (err?.message?.includes('429') || err?.message?.includes('RESOURCE_EXHAUSTED') || err?.status === 429) {
+            console.warn('[BG] Rate limit reached. Stopping background image generation.');
+            isGeneratingRef.current = false;
+            return;
+          }
+          await new Promise(r => setTimeout(r, 15000));
         }
       }
       
@@ -318,7 +328,13 @@ function AdminDashboardContent() {
     const reader = new FileReader();
     reader.onloadend = async () => {
       const base64 = reader.result as string;
-      setEditingItem(prev => prev ? { ...prev, image: base64 } : null);
+      try {
+        const resized = await resizeBase64Image(base64);
+        setEditingItem(prev => prev ? { ...prev, image: resized } : null);
+      } catch (err) {
+        console.error("Failed to resize image", err);
+        setEditingItem(prev => prev ? { ...prev, image: base64 } : null);
+      }
     };
     reader.readAsDataURL(file);
   };
@@ -490,10 +506,22 @@ function AdminDashboardContent() {
               ))}
             </div>
 
-            <div className="space-y-16">
-              {menu
-                .filter(cat => activeAdminCategory === null || cat.id === activeAdminCategory)
-                .map(cat => (
+            {menu.length === 0 ? (
+              <div className="text-center py-20 bg-gray-50 rounded-[3rem] border-2 border-dashed border-gray-200">
+                <Coffee className="w-16 h-16 text-gray-200 mx-auto mb-6" />
+                <h3 className="text-2xl font-black uppercase tracking-tight text-gray-400">Your menu is empty</h3>
+                <p className="text-[10px] font-black uppercase tracking-widest text-gray-300 mt-2 mb-8">Upload a menu image or add items manually</p>
+                <label className="inline-flex items-center gap-3 px-8 py-4 bg-black text-white rounded-2xl font-black uppercase tracking-widest text-xs cursor-pointer hover:bg-gray-800 transition-all active:scale-95">
+                  <Upload size={20} />
+                  <span>Import Menu Image</span>
+                  <input type="file" className="hidden" onChange={handleFileUpload} accept="image/*" />
+                </label>
+              </div>
+            ) : (
+              <div className="space-y-16">
+                {menu
+                  .filter(cat => activeAdminCategory === null || cat.id === activeAdminCategory)
+                  .map(cat => (
                 <section key={cat.id}>
                   <div className="flex items-center gap-6 mb-8">
                     <h3 className="text-2xl font-black text-black uppercase tracking-tight">{cat.name}</h3>
@@ -624,6 +652,7 @@ function AdminDashboardContent() {
                 </section>
               ))}
             </div>
+          )}
           </div>
         ) : view === 'orders' ? (
           <div className="max-w-5xl mx-auto">
@@ -781,7 +810,8 @@ function AdminDashboardContent() {
                     orders
                       .filter(o => o.is_paid && o.status === 'completed')
                       .reduce((groups, order) => {
-                        const date = new Date(order.created_at).toLocaleDateString(undefined, { 
+                        const dateObj = order.created_at?.toDate ? order.created_at.toDate() : new Date(order.created_at);
+                        const date = dateObj.toLocaleDateString(undefined, { 
                           weekday: 'long', 
                           year: 'numeric', 
                           month: 'long', 

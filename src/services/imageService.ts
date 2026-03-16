@@ -28,8 +28,11 @@ export async function generateMenuItemImage(name: string, category: string, desc
       }
     }
     throw new Error("No image generated");
-  } catch (error) {
+  } catch (error: any) {
     console.error("Failed to generate item image:", error);
+    if (error?.message?.includes('429') || error?.message?.includes('RESOURCE_EXHAUSTED') || error?.status === 429) {
+      throw error;
+    }
     // Return a fallback image
     return `https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=500&q=80`;
   }
@@ -61,8 +64,11 @@ export async function generateCategoryImage(category: string): Promise<string> {
       }
     }
     throw new Error("No image generated");
-  } catch (error) {
+  } catch (error: any) {
     console.error("Failed to generate category image:", error);
+    if (error?.message?.includes('429') || error?.message?.includes('RESOURCE_EXHAUSTED') || error?.status === 429) {
+      throw error;
+    }
     // Return a fallback image
     return `https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=500&q=80`;
   }

@@ -651,9 +651,6 @@ async function startServer() {
     });
   }
 
-  // Auto-seed if empty - REMOVED redundant block
-  // The seeding is now handled at the top level of the module for consistency.
-
   console.log("Vite middleware and API routes configured. Starting listener...");
   httpServer.listen(PORT, "0.0.0.0", () => {
     console.log(`Server running on http://0.0.0.0:${PORT}`);
