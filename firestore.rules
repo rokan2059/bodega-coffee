@@ -1,0 +1,140 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // ===============================================================
+    // Assumed Data Model
+    // ===============================================================
+    //
+    // Collection: categories
+    // Document ID: auto-generated
+    // Fields:
+    //   - name: string (required, < 50 chars)
+    //   - image: string (optional, url)
+    //
+    // Collection: items
+    // Document ID: auto-generated
+    // Fields:
+    //   - category_id: string (required)
+    //   - name: string (required, < 100 chars)
+    //   - price_fixed: number (optional, >= 0)
+    //   - price_hot: number (optional, >= 0)
+    //   - price_cold: number (optional, >= 0)
+    //   - description: string (optional, < 500 chars)
+    //   - available: boolean (required)
+    //   - image: string (optional, url)
+    //   - addons: string (optional, json array)
+    //
+    // Collection: orders
+    // Document ID: auto-generated
+    // Fields:
+    //   - items: list (required)
+    //   - total: number (required, >= 0)
+    //   - status: string (required, 'pending' | 'completed')
+    //   - is_paid: boolean (required)
+    //   - created_at: timestamp (required)
+    //   - user_email: string (optional, < 100 chars)
+    //   - payment_method: string (optional, < 50 chars)
+    //
+    // ===============================================================
+
+    // ===============================================================
+    // Helper Functions
+    // ===============================================================
+
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    function isAdmin() {
+      return isAuthenticated() && request.auth.token.email == 'swurvielb@gmail.com';
+    }
+
+    function hasRequiredFields(fields) {
+      return request.resource.data.keys().hasAll(fields);
+    }
+
+    function validStringLength(field, minLen, maxLen) {
+      return request.resource.data[field] is string &&
+        request.resource.data[field].size() >= minLen &&
+        request.resource.data[field].size() <= maxLen;
+    }
+
+    function isValidOptionalString(field, minLen, maxLen) {
+      return !(field in request.resource.data) ||
+             request.resource.data[field] == null ||
+             (request.resource.data[field] is string &&
+              request.resource.data[field].size() >= minLen &&
+              request.resource.data[field].size() <= maxLen);
+    }
+
+    function isPositive(field) {
+      return request.resource.data[field] is number && request.resource.data[field] >= 0;
+    }
+
+    function isValidOptionalPositive(field) {
+      return !(field in request.resource.data) ||
+             request.resource.data[field] == null ||
+             (request.resource.data[field] is number && request.resource.data[field] >= 0);
+    }
+
+    // ===============================================================
+    // Domain Validators
+    // ===============================================================
+
+    function isValidCategory() {
+      return hasRequiredFields(['name']) &&
+             validStringLength('name', 1, 50) &&
+             isValidOptionalString('image', 0, 1048576);
+    }
+
+    function isValidItem() {
+      return hasRequiredFields(['category_id', 'name', 'available']) &&
+             request.resource.data.category_id is string &&
+             validStringLength('name', 1, 100) &&
+             request.resource.data.available is bool &&
+             isValidOptionalPositive('price_fixed') &&
+             isValidOptionalPositive('price_hot') &&
+             isValidOptionalPositive('price_cold') &&
+             isValidOptionalString('description', 0, 500) &&
+             isValidOptionalString('image', 0, 1048576) &&
+             isValidOptionalString('addons', 0, 2000);
+    }
+
+    function isValidOrder() {
+      return hasRequiredFields(['items', 'total', 'status', 'is_paid', 'created_at']) &&
+             request.resource.data.items is list &&
+             isPositive('total') &&
+             request.resource.data.status in ['pending', 'completed'] &&
+             request.resource.data.is_paid is bool &&
+             request.resource.data.created_at is timestamp &&
+             isValidOptionalString('user_email', 0, 100) &&
+             isValidOptionalString('payment_method', 0, 50);
+    }
+
+    // ===============================================================
+    // Rules
+    // ===============================================================
+
+    match /categories/{categoryId} {
+      allow read: if true;
+      allow create: if isAdmin() && isValidCategory();
+      allow update: if isAdmin() && isValidCategory();
+      allow delete: if isAdmin();
+    }
+
+    match /items/{itemId} {
+      allow read: if true;
+      allow create: if isAdmin() && isValidItem();
+      allow update: if isAdmin() && isValidItem();
+      allow delete: if isAdmin();
+    }
+
+    match /orders/{orderId} {
+      allow read: if true; // Allow customers to read their own orders (filtered by query)
+      allow create: if isValidOrder();
+      allow update: if isAdmin() && isValidOrder();
+      allow delete: if isAdmin();
+    }
+  }
+}

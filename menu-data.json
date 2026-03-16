@@ -1,0 +1,100 @@
+{
+  "categories": [
+    {
+      "name": "SPECIALTY ESPRESSO BEVERAGES",
+      "items": [
+        { "name": "Brewed Coffee", "price_hot": 100, "price_cold": 120, "image": "https://images.unsplash.com/photo-1541167760496-1628856ab772?w=800&auto=format&fit=crop" },
+        { "name": "White Chocolate Mocha", "price_cold": 180, "image": "https://images.unsplash.com/photo-1572442388796-11668a67e53d?w=800&auto=format&fit=crop" },
+        { "name": "Caramel Macchiato", "price_cold": 180, "image": "https://images.unsplash.com/photo-1485808191679-5f86510681a2?w=800&auto=format&fit=crop" },
+        { "name": "Classic Spanish Latte", "price_hot": 175, "price_cold": 200, "image": "https://images.unsplash.com/photo-1551030173-122adba81f3a?w=800&auto=format&fit=crop" },
+        { "name": "Seasalt Caramel Latte", "price_hot": 175, "price_cold": 200, "image": "https://images.unsplash.com/photo-1594133282413-62006396771f?w=800&auto=format&fit=crop" },
+        { "name": "Hazelnut Latte", "price_hot": 175, "price_cold": 200, "image": "https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=800&auto=format&fit=crop" }
+      ]
+    },
+    {
+      "name": "BODEGA X LINEAR COFFEE ROASTERS",
+      "items": [
+        { "name": "Filtered Coffee", "price_fixed": 100, "image": "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=800&auto=format&fit=crop" },
+        { "name": "Espresso / Black", "price_fixed": 100, "image": "https://images.unsplash.com/photo-1510591509098-f4fdc6d0ff04?w=800&auto=format&fit=crop" },
+        { "name": "White", "price_fixed": 100, "image": "https://images.unsplash.com/photo-1517701604599-bb29b565090c?w=800&auto=format&fit=crop" },
+        { "name": "White Brew", "price_fixed": 120, "image": "https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=800&auto=format&fit=crop" },
+        { "name": "Cold Brew", "price_fixed": 120, "image": "https://images.unsplash.com/photo-1517701553060-0a3405d58280?w=800&auto=format&fit=crop" }
+      ]
+    },
+    {
+      "name": "NON-ESPRESSO BEVERAGES",
+      "items": [
+        { "name": "Matcha Latte", "price_fixed": 180, "image": "https://images.unsplash.com/photo-1515823662273-ad9525e58846?w=800&auto=format&fit=crop" },
+        { "name": "Ube Latte", "price_fixed": 180, "image": "https://images.unsplash.com/photo-1578314675249-a6910f80cc4e?w=800&auto=format&fit=crop" },
+        { "name": "Strawberry Matcha Latte", "price_fixed": 200, "image": "https://images.unsplash.com/photo-1594631252845-29fc4cc8cde9?w=800&auto=format&fit=crop" },
+        { "name": "Ube Matcha Latte", "price_fixed": 200, "image": "https://images.unsplash.com/photo-1578314675249-a6910f80cc4e?w=800&auto=format&fit=crop" }
+      ]
+    },
+    {
+      "name": "HOT TEA",
+      "items": [
+        { "name": "Pure Chamomile", "price_fixed": 120, "image": "https://images.unsplash.com/photo-1594631252845-29fc4cc8cde9?w=800&auto=format&fit=crop" },
+        { "name": "English Breakfast", "price_fixed": 120, "image": "https://images.unsplash.com/photo-1594631252845-29fc4cc8cde9?w=800&auto=format&fit=crop" },
+        { "name": "Green Tea", "price_fixed": 120, "image": "https://images.unsplash.com/photo-1594631252845-29fc4cc8cde9?w=800&auto=format&fit=crop" }
+      ]
+    },
+    {
+      "name": "COMFORT FOOD",
+      "items": [
+        { "name": "Siomai Rice Bowl", "price_fixed": 149, "image": "https://images.unsplash.com/photo-1563379091339-03b21bc4a4f8?w=800&auto=format&fit=crop" },
+        { "name": "Longganisa with Egg", "price_fixed": 179, "image": "https://images.unsplash.com/photo-1585032226651-759b368d7246?w=800&auto=format&fit=crop" },
+        { "name": "Bistek Tagalog", "price_fixed": 199, "image": "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=800&auto=format&fit=crop" },
+        { "name": "Burger Steak", "price_fixed": 249, "image": "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=800&auto=format&fit=crop" },
+        { "name": "Chicken Torikatsu", "price_fixed": 249, "image": "https://images.unsplash.com/photo-1562607378-27b956467629?w=800&auto=format&fit=crop" },
+        { "name": "Spam with Egg", "price_fixed": 249, "image": "https://images.unsplash.com/photo-1551782450-a2132b4ba21d?w=800&auto=format&fit=crop" }
+      ]
+    },
+    {
+      "name": "SWEET TREATS",
+      "items": [
+        { "name": "Chocolate Chip Cookie", "price_fixed": 90, "image": "https://images.unsplash.com/photo-1499636136210-6f4ee915583e?w=800&auto=format&fit=crop" },
+        { "name": "Red Velvet Cookie", "price_fixed": 90, "image": "https://images.unsplash.com/photo-1616733148914-29d97a5da3c1?w=800&auto=format&fit=crop" },
+        { "name": "Biscoff Cookie", "price_fixed": 90, "image": "https://images.unsplash.com/photo-1499636136210-6f4ee915583e?w=800&auto=format&fit=crop" },
+        { "name": "Mango Graham", "price_fixed": 170, "image": "https://images.unsplash.com/photo-1551024601-bec78aea704b?w=800&auto=format&fit=crop" },
+        { "name": "Tiramisu", "price_fixed": 190, "image": "https://images.unsplash.com/photo-1571877227200-a0d98ea607e9?w=800&auto=format&fit=crop" },
+        { "name": "Basque Burnt Cheesecake", "price_fixed": 190, "image": "https://images.unsplash.com/photo-1533134242443-d4fd215305ad?w=800&auto=format&fit=crop" }
+      ]
+    },
+    {
+      "name": "JUICES & FRUIT TEAS",
+      "items": [
+        { "name": "Green Apple Fruit Tea", "price_fixed": 150, "image": "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?w=800&auto=format&fit=crop" },
+        { "name": "Melon Fruit Tea", "price_fixed": 150, "image": "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?w=800&auto=format&fit=crop" },
+        { "name": "Hibiscus Lemonade", "price_fixed": 150, "image": "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?w=800&auto=format&fit=crop" },
+        { "name": "Green Apple Yakult", "price_fixed": 190, "image": "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?w=800&auto=format&fit=crop" },
+        { "name": "Melon Yakult", "price_fixed": 190, "image": "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?w=800&auto=format&fit=crop" }
+      ]
+    },
+    {
+      "name": "SMOOTHIES & FRAPPES",
+      "items": [
+        { "name": "Blueberry Smoothie", "price_fixed": 160, "image": "https://images.unsplash.com/photo-1553530209-92264097c64b?w=800&auto=format&fit=crop" },
+        { "name": "Strawberry Smoothie", "price_fixed": 160, "image": "https://images.unsplash.com/photo-1553530209-92264097c64b?w=800&auto=format&fit=crop" },
+        { "name": "Java Chip Frappe", "price_fixed": 200, "image": "https://images.unsplash.com/photo-1572490122747-3968b75cc699?w=800&auto=format&fit=crop" }
+      ]
+    },
+    {
+      "name": "SODA POP",
+      "items": [
+        { "name": "Strawberry Soda", "price_fixed": 160, "image": "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?w=800&auto=format&fit=crop" },
+        { "name": "Blueberry Soda", "price_fixed": 160, "image": "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?w=800&auto=format&fit=crop" },
+        { "name": "Butterfly Pea Peach Soda", "price_fixed": 200, "image": "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?w=800&auto=format&fit=crop" }
+      ]
+    },
+    {
+      "name": "QUICK BITES",
+      "items": [
+        { "name": "Siopao", "price_fixed": 59, "image": "https://images.unsplash.com/photo-1563379091339-03b21bc4a4f8?w=800&auto=format&fit=crop" },
+        { "name": "Fries (BBQ / Sour Cream)", "price_fixed": 159, "image": "https://images.unsplash.com/photo-1573016608294-d447906a3a29?w=800&auto=format&fit=crop" },
+        { "name": "Chicken Nuggets", "price_fixed": 179, "image": "https://images.unsplash.com/photo-1562607378-27b956467629?w=800&auto=format&fit=crop" },
+        { "name": "Korean Ramen with Egg", "price_fixed": 199, "image": "https://images.unsplash.com/photo-1569718212165-3a8278d5f624?w=800&auto=format&fit=crop" },
+        { "name": "Mama's Lasagna with Bread", "price_fixed": 199, "image": "https://images.unsplash.com/photo-1551183053-bf91a1d81141?w=800&auto=format&fit=crop" }
+      ]
+    }
+  ]
+}
