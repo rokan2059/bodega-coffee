@@ -172,9 +172,10 @@ function AdminDashboardContent() {
           await updateDoc(doc(db, 'categories', cat.id), { image });
           
           console.log(`[BG] Generated photo for category ${cat.name}`);
-          await new Promise(r => setTimeout(r, 2000));
+          await new Promise(r => setTimeout(r, 4000));
         } catch (err) {
           console.error(`[BG] Failed for category ${cat.name}:`, err);
+          await new Promise(r => setTimeout(r, 4000));
         }
       }
 
@@ -193,9 +194,10 @@ function AdminDashboardContent() {
           await updateDoc(doc(db, 'items', item.id), { image });
           
           console.log(`[BG] Generated photo for ${item.name}`);
-          await new Promise(r => setTimeout(r, 2000));
+          await new Promise(r => setTimeout(r, 4000));
         } catch (err) {
           console.error(`[BG] Failed for ${item.name}:`, err);
+          await new Promise(r => setTimeout(r, 4000));
         }
       }
       

@@ -1,4 +1,8 @@
 export async function resizeBase64Image(base64Str: string, maxWidth = 512, maxHeight = 512): Promise<string> {
+  if (base64Str.startsWith('http://') || base64Str.startsWith('https://')) {
+    return base64Str;
+  }
+
   return new Promise((resolve, reject) => {
     const img = new Image();
     img.src = base64Str;
